@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import './App.css';
+import "./App.css";
 
-class App extends Component{
-  render(){
-    return(
-      <h1 className="App-header">Hello world!</h1>
-    );
+class App extends Component {
+  render() {
+    return <h1 className="App-header">Hello world!</h1>;
   }
 }
 
