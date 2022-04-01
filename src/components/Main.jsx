@@ -18,6 +18,22 @@ export default class Main extends Component {
     this.handleOnClickEdit = this.handleOnClickEdit.bind(this);
   }
 
+  componentDidMount(){
+    const taskList = JSON.parse(localStorage.getItem('taskList'));
+
+    if(!taskList) return;
+
+    this.setState({taskList});
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    const {taskList} = this.state;
+
+    if(taskList === prevState.taskList) return;
+
+    localStorage.setItem('taskList', JSON.stringify(taskList));
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -44,6 +60,7 @@ export default class Main extends Component {
       }
     }
   }
+
   handleChange(event) {
     this.setState({
       newTask: event.target.value,
@@ -58,6 +75,7 @@ export default class Main extends Component {
       newTask: taskList[index],
     });
   }
+
   handleOnClickDelete(event, index) {
     const { taskList } = this.state,
       newTaskList = [...taskList];
