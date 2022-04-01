@@ -7,32 +7,64 @@ export default class Main extends Component {
     super(props);
 
     this.state = {
+      index: -1,
       newTask: "",
-      taskList: []
+      taskList: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
+    this.handleOnClickEdit = this.handleOnClickEdit.bind(this);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
 
-    const {taskList} = this.state;
-    let {newTask} = this.state;
+    const { taskList, index } = this.state;
+    let { newTask } = this.state;
     newTask = newTask.trim();
 
-    if(taskList.indexOf(newTask) !== -1) return;
+    const newTaskList = [...taskList];
 
-    const newTaskList = [... taskList];
+    if (newTask) {
+      if (taskList.indexOf(newTask) !== -1) return;
 
-    this.setState({
-      taskList: [... newTaskList, newTask]
-    });
+      if (index === -1) {
+        this.setState({
+          taskList: [...newTaskList, newTask],
+          newTask: "",
+        });
+      } else {
+        newTaskList[index] = newTask;
+        this.setState({
+          index: -1,
+          taskList: [...newTaskList],
+        });
+      }
+    }
   }
   handleChange(event) {
     this.setState({
       newTask: event.target.value,
+    });
+  }
+
+  handleOnClickEdit(event, index) {
+    const { taskList } = this.state;
+
+    this.setState({
+      index: index,
+      newTask: taskList[index],
+    });
+  }
+  handleOnClickDelete(event, index) {
+    const { taskList } = this.state,
+      newTaskList = [...taskList];
+    newTaskList.splice(index, 1);
+
+    this.setState({
+      taskList: [...newTaskList],
     });
   }
 
@@ -42,7 +74,6 @@ export default class Main extends Component {
       <>
         <div className="main">
           <h1>Lista de tarefas</h1>
-          <h5>{newTask}</h5>
           <form onSubmit={this.handleSubmit} action="#" className="form">
             <input onChange={this.handleChange} type="text" value={newTask} />
             <button type="submit">
@@ -50,12 +81,18 @@ export default class Main extends Component {
             </button>
           </form>
           <ul className="task">
-            {taskList.map((task) => (
+            {taskList.map((task, index) => (
               <li key={task}>
                 {task}
                 <div>
-                  <FaEdit className="edit"/>
-                  <FaWindowClose className="delete"/>
+                  <FaEdit
+                    onClick={(event) => this.handleOnClickEdit(event, index)}
+                    className="edit"
+                  />
+                  <FaWindowClose
+                    onClick={(event) => this.handleOnClickDelete(event, index)}
+                    className="delete"
+                  />
                 </div>
               </li>
             ))}
