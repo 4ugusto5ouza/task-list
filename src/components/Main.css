@@ -27,7 +27,7 @@
   min-width: 80%;
 }
 
-.form button[type = "submit"] {
+.form button[type="submit"] {
   border: none;
   height: 20px;
   width: 20px;
@@ -36,4 +36,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.task {
+  margin-top: 30px;
+}
+
+.task :hover {
+  background: #ccc;
+}
+
+.task li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task li .edit {
+  margin-right: 15px;
+  color: #51c5de;
+  cursor: pointer;
+}
+
+.task li .delete {
+  margin-right: 15px;
+  color: #f04c64;
+  cursor: pointer;
 }
