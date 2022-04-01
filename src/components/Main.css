@@ -52,6 +52,11 @@
   justify-content: space-between;
 }
 
+.task li div {
+  display: flex;
+  align-items: center;
+}
+
 .task li .edit {
   margin-right: 15px;
   color: #51c5de;

@@ -8,12 +8,28 @@ export default class Main extends Component {
 
     this.state = {
       newTask: "",
-      taskList: ["Task 1", "Task 2", "Task 3"],
+      taskList: []
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleSubmit(event){
+    event.preventDefault();
+
+    const {taskList} = this.state;
+    let {newTask} = this.state;
+    newTask = newTask.trim();
+
+    if(taskList.indexOf(newTask) !== -1) return;
+
+    const newTaskList = [... taskList];
+
+    this.setState({
+      taskList: [... newTaskList, newTask]
+    });
+  }
   handleChange(event) {
     this.setState({
       newTask: event.target.value,
@@ -27,7 +43,7 @@ export default class Main extends Component {
         <div className="main">
           <h1>Lista de tarefas</h1>
           <h5>{newTask}</h5>
-          <form action="#" className="form">
+          <form onSubmit={this.handleSubmit} action="#" className="form">
             <input onChange={this.handleChange} type="text" value={newTask} />
             <button type="submit">
               <FaPlus />
